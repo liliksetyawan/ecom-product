@@ -2,8 +2,10 @@ package main
 
 import (
 	"ecom-product/config"
+	"ecom-product/endpoint"
 	"ecom-product/server"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 	"log"
 	"net/http"
@@ -35,11 +37,20 @@ func main() {
 
 	defer server.DBConn.Close()
 
-	// Jalankan migration saat start
 	if err = server.RunMigrations(server.DBConn, "./sql_migration"); err != nil {
 		log.Fatalf("migration failed: %v", err)
 	}
 
-	log.Fatal(http.ListenAndServe(":8082", nil))
+	log.Fatal(http.ListenAndServe(":8082", controller()))
 
+}
+
+func controller() *mux.Router {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/product", endpoint.CreateProductHandler).Methods("POST")
+	r.HandleFunc("/product", endpoint.GetProductsHandler).Methods("GET")
+	r.HandleFunc("/product/{id}", endpoint.GetProductByIDHandler).Methods("GET")
+
+	return r
 }
