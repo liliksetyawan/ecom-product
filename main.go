@@ -3,6 +3,7 @@ package main
 import (
 	"ecom-product/config"
 	"ecom-product/endpoint"
+	"ecom-product/middleware"
 	"ecom-product/server"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -47,6 +48,8 @@ func main() {
 
 func controller() *mux.Router {
 	r := mux.NewRouter()
+
+	r.Use(middleware.AuthMiddleware)
 
 	r.HandleFunc("/product", endpoint.CreateProductHandler).Methods("POST")
 	r.HandleFunc("/product", endpoint.GetProductsHandler).Methods("GET")

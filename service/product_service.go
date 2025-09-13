@@ -5,6 +5,7 @@ import (
 	"ecom-product/dao"
 	"ecom-product/dto/in"
 	"ecom-product/dto/out"
+	"ecom-product/middleware"
 	"ecom-product/repository"
 	"ecom-product/server"
 	"fmt"
@@ -12,7 +13,7 @@ import (
 	"time"
 )
 
-func CreateProduct(req *in.ProductDTOIn) (*out.ProductDTOOut, error) {
+func CreateProduct(req *in.ProductDTOIn, ctx *middleware.ContextData) (*out.ProductDTOOut, error) {
 	if req.ShopID == 0 || req.Code == "" || req.Name == "" || req.Price <= 0 {
 		return nil, fmt.Errorf("shop_id, code, name, and valid price are required")
 	}

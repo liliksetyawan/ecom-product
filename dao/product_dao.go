@@ -72,7 +72,6 @@ func GetListProducts(db *sql.DB, p in.Pagination) ([]repository.ProductModel, er
 	return products, nil
 }
 
-// GetProductByID mengambil produk berdasarkan ID
 func GetProductByID(db *sql.DB, id int64) (*repository.ProductModel, error) {
 	query := `
 		SELECT id, shop_id, code, name, description, price, created_at, updated_at
@@ -92,9 +91,6 @@ func GetProductByID(db *sql.DB, id int64) (*repository.ProductModel, error) {
 		&product.UpdatedAt,
 	)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, nil // tidak ada product
-		}
 		return nil, err
 	}
 

@@ -18,7 +18,12 @@ func CreateProductHandler(w http.ResponseWriter, r *http.Request) {
 			return nil, err, nil
 		}
 
-		resp, err := service.CreateProduct(&req)
+		ctxData, ok := r.Context().Value(middleware.ContextKeyUser).(*middleware.ContextData)
+		if !ok || ctxData == nil {
+			return nil, fmt.Errorf("user context missing"), nil
+		}
+
+		resp, err := service.CreateProduct(&req, ctxData)
 		return resp, err, req
 	}
 

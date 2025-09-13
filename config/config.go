@@ -17,6 +17,7 @@ type Config struct {
 
 	JWTSecret string `envconfig:"JWT_SECRET" required:"true"`
 	JWTExpiry int    `envconfig:"JWT_EXPIRY" default:"72"`
+	FixToken  string `envconfig:"FIX_TOKEN" required:"true"`
 }
 
 func LoadConfig() {
